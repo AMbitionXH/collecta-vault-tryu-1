@@ -10,6 +10,7 @@ interface Card {
   wave: string
   series: string
   card_number: string
+  image_url: string | null
 }
 
 export default function App() {
@@ -65,7 +66,6 @@ export default function App() {
     </nav>
   )
 
-  // CARD DETAIL PAGE
   if (selectedCard) {
     return (
       <div className="app">
@@ -78,7 +78,10 @@ export default function App() {
           </div>
           <div className="detail-top">
             <div className="detail-card-img" style={{ background: tierColors[selectedCard.tier] || '#f5f5f5' }}>
-              <span className="detail-card-char">🃏</span>
+              {selectedCard.image_url
+                ? <img src={selectedCard.image_url} alt={selectedCard.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} />
+                : <span className="detail-card-char">🃏</span>
+              }
               <span className={`card-badge ${tierBadge[selectedCard.tier]}`}>{selectedCard.tier}</span>
             </div>
             <div className="detail-info">
@@ -110,7 +113,7 @@ export default function App() {
                 </div>
               </div>
               <div className="detail-chart-placeholder">
-                <div style={{ textAlign: 'center', color: '#888', fontSize: '13px', paddingTop: '60px' }}>
+                <div style={{ textAlign: 'center', color: '#888', fontSize: '13px' }}>
                   Price chart coming soon<br />
                   <span style={{ fontSize: '11px' }}>eBay integration in progress</span>
                 </div>
@@ -147,7 +150,6 @@ export default function App() {
     )
   }
 
-  // SET DETAIL PAGE
   if (selectedWave) {
     const waveCards = cards.filter(c => c.wave === selectedWave)
     const tiers = [...new Set(waveCards.map(c => c.tier))]
@@ -174,7 +176,10 @@ export default function App() {
                 {waveCards.filter(c => c.tier === tier).map(card => (
                   <div className="card" key={card.id} onClick={() => setSelectedCard(card)}>
                     <div className="card-img" style={{ background: tierColors[card.tier] || '#f5f5f5' }}>
-                      <span className="card-char">🃏</span>
+                      {card.image_url
+                        ? <img src={card.image_url} alt={card.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : <span className="card-char">🃏</span>
+                      }
                       <span className={`card-badge ${tierBadge[card.tier] || 'badge-r'}`}>{card.tier}</span>
                     </div>
                     <div className="card-info">
@@ -226,7 +231,10 @@ export default function App() {
                   {filteredCards.map(card => (
                     <div className="card" key={card.id} onClick={() => setSelectedCard(card)}>
                       <div className="card-img" style={{ background: tierColors[card.tier] || '#f5f5f5' }}>
-                        <span className="card-char">🃏</span>
+                        {card.image_url
+                          ? <img src={card.image_url} alt={card.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          : <span className="card-char">🃏</span>
+                        }
                         <span className={`card-badge ${tierBadge[card.tier] || 'badge-r'}`}>{card.tier}</span>
                       </div>
                       <div className="card-info">
