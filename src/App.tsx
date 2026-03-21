@@ -17,10 +17,11 @@ export default function App() {
   const [cards, setCards] = useState<Card[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [selectedWave, setSelectedWave] = useState<string | null>(null)
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null)
+  const [priceTab, setPriceTab] = useState('1w')
 
-  useEffect(() => {
-    fetchCards()
-  }, [])
+  useEffect(() => { fetchCards() }, [])
 
   async function fetchCards() {
     setLoading(true)
@@ -34,7 +35,6 @@ export default function App() {
     SE: '#faeeda', SP: '#FBEAF0', BP: '#E6F1FB', AR: '#E1F5EE',
     UR: '#faeeda', ZR: '#FBEAF0', HR: '#E6F1FB', SR: '#E1F5EE', R: '#F1EFE8'
   }
-
   const tierBadge: Record<string, string> = {
     SE: 'badge-ur', SP: 'badge-zr', BP: 'badge-hr', AR: 'badge-sr',
     UR: 'badge-ur', ZR: 'badge-zr', HR: 'badge-hr', SR: 'badge-sr', R: 'badge-r'
@@ -46,28 +46,161 @@ export default function App() {
     card.series.toLowerCase().includes(search.toLowerCase())
   )
 
-  const wave1Cards = cards.filter(c => c.wave === 'Wave 1')
-  const wave2Cards = cards.filter(c => c.wave === 'Wave 2')
+  const priceData: Record<string, { labels: string[], data: number[] }> = {
+    '1w': { labels: ['Mar 14','Mar 15','Mar 16','Mar 17','Mar 18','Mar 19','Mar 20'], data: [194,198,200,220,195,208,214] },
+    '1m': { labels: ['Feb 20','Feb 25','Mar 1','Mar 5','Mar 10','Mar 15','Mar 20'], data: [175,180,188,195,200,205,214] },
+    '3m': { labels: ['Jan','Jan 15','Feb 1','Feb 15','Mar 1','Mar 15','Mar 20'], data: [155,162,170,178,188,205,214] }
+  }
+
+  const Nav = ({ activePage }: { activePage: string }) => (
+    <nav className="nav">
+      <div className="logo">Collecta<span>Vault</span></div>
+      <div className="nav-tabs">
+        <button className={activePage === 'browse' ? 'nav-tab active' : 'nav-tab'} onClick={() => { setSelectedCard(null); setSelectedWave(null); setPage('browse') }}>Browse</button>
+        <button className={activePage === 'sets' ? 'nav-tab active' : 'nav-tab'} onClick={() => { setSelectedCard(null); setSelectedWave(null); setPage('sets') }}>Sets</button>
+        <button className={activePage === 'collection' ? 'nav-tab active' : 'nav-tab'} onClick={() => { setSelectedCard(null); setSelectedWave(null); setPage('collection') }}>My collection</button>
+        <button className={activePage === 'wanted' ? 'nav-tab active' : 'nav-tab'} onClick={() => { setSelectedCard(null); setSelectedWave(null); setPage('wanted') }}>Wanted list</button>
+      </div>
+      <div className="nav-right">
+        <div className="nav-search">
+          <input type="text" placeholder="Search cards..." value={search} onChange={e => setSearch(e.target.value)} onFocus={() => { setSelectedCard(null); setSelectedWave(null); setPage('browse') }} />
+        </div>
+        <button className="btn-login">Log in</button>
+        <button className="btn-signup">Sign up</button>
+      </div>
+    </nav>
+  )
+
+  // CARD DETAIL PAGE
+  if (selectedCard) {
+    return (
+      <div className="app">
+        <Nav activePage={page} />
+        <div className="detail-page">
+          <div className="breadcrumb">
+            <span onClick={() => { setSelectedCard(null); setPage('browse') }}>Naruto Kayou</span> ›{' '}
+            <span onClick={() => { setSelectedCard(null); setPage('sets') }}>{selectedCard.wave} · {selectedCard.series}</span> ›{' '}
+            {selectedCard.name}
+          </div>
+          <div className="detail-top">
+            <div className="detail-card-img" style={{ background: tierColors[selectedCard.tier] || '#f5f5f5' }}>
+              <span className="detail-card-char">🃏</span>
+              <span className={`card-badge ${tierBadge[selectedCard.tier]}`}>{selectedCard.tier}</span>
+            </div>
+            <div className="detail-info">
+              <div className="detail-name">{selectedCard.name}</div>
+              <div className="detail-sub">Naruto Kayou · {selectedCard.wave} · {selectedCard.card_number}</div>
+              <div className="detail-price-row">
+                <div className="detail-price">—</div>
+                <div className="detail-change">Price coming soon</div>
+              </div>
+              <div className="detail-price-meta">eBay price tracking coming soon</div>
+              <div className="detail-btn-row">
+                <button className="btn-primary-sm">+ Add to collection</button>
+                <button className="btn-secondary-sm">+ Wishlist</button>
+              </div>
+              <div className="detail-meta-grid">
+                <div className="detail-meta-item"><div className="detail-meta-label">Tier</div><div className="detail-meta-value">{selectedCard.tier}</div></div>
+                <div className="detail-meta-item"><div className="detail-meta-label">Wave</div><div className="detail-meta-value">{selectedCard.wave}</div></div>
+                <div className="detail-meta-item"><div className="detail-meta-label">All time high</div><div className="detail-meta-value">—</div></div>
+                <div className="detail-meta-item"><div className="detail-meta-label">All time low</div><div className="detail-meta-value">—</div></div>
+              </div>
+            </div>
+            <div className="detail-chart-col">
+              <div className="detail-chart-header">
+                <div className="detail-chart-title">Price history</div>
+                <div className="detail-chart-tabs">
+                  {['1w','1m','3m'].map(t => (
+                    <button key={t} className={priceTab === t ? 'chart-tab active' : 'chart-tab'} onClick={() => setPriceTab(t)}>{t}</button>
+                  ))}
+                </div>
+              </div>
+              <div className="detail-chart-placeholder">
+                <div style={{ textAlign: 'center', color: '#888', fontSize: '13px', paddingTop: '60px' }}>
+                  Price chart coming soon<br />
+                  <span style={{ fontSize: '11px' }}>eBay integration in progress</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="detail-divider" />
+          <div className="detail-two-col">
+            <div>
+              <div className="detail-section-title">Last sold</div>
+              <div className="detail-list">
+                {[1,2,3,4,5].map(i => (
+                  <div className="detail-list-item" key={i}>
+                    <div><div className="detail-list-price">—</div><div className="detail-list-meta">Coming soon</div></div>
+                    <div className="detail-list-badge">Near mint</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="detail-section-title">Active listings</div>
+              <div className="detail-list">
+                {[1,2,3,4,5].map(i => (
+                  <div className="detail-list-item" key={i}>
+                    <div><div className="detail-list-price">—</div><div className="detail-list-meta">eBay listings coming soon</div></div>
+                    <button className="listing-btn">View on eBay</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // SET DETAIL PAGE
+  if (selectedWave) {
+    const waveCards = cards.filter(c => c.wave === selectedWave)
+    const tiers = [...new Set(waveCards.map(c => c.tier))]
+    return (
+      <div className="app">
+        <Nav activePage="sets" />
+        <div className="detail-page">
+          <div className="breadcrumb">
+            <span onClick={() => setSelectedWave(null)}>Sets</span> › {selectedWave === 'Wave 1' ? 'NRSA01' : 'NRSA02'}
+          </div>
+          <div className="section-header" style={{ marginTop: '16px', marginBottom: '20px' }}>
+            <div>
+              <div className="section-title">Naruto Kayou {selectedWave === 'Wave 1' ? 'NRSA01' : 'NRSA02'}</div>
+              <div className="section-sub">{waveCards.length} cards · {tiers.join(' · ')} tiers</div>
+            </div>
+          </div>
+          {tiers.map(tier => (
+            <div key={tier} style={{ marginBottom: '28px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+                <span className={`card-badge ${tierBadge[tier]}`} style={{ fontSize: '12px', padding: '4px 10px' }}>{tier}</span>
+                <span style={{ fontSize: '13px', color: '#888' }}>{waveCards.filter(c => c.tier === tier).length} cards</span>
+              </div>
+              <div className="cards-grid">
+                {waveCards.filter(c => c.tier === tier).map(card => (
+                  <div className="card" key={card.id} onClick={() => setSelectedCard(card)}>
+                    <div className="card-img" style={{ background: tierColors[card.tier] || '#f5f5f5' }}>
+                      <span className="card-char">🃏</span>
+                      <span className={`card-badge ${tierBadge[card.tier] || 'badge-r'}`}>{card.tier}</span>
+                    </div>
+                    <div className="card-info">
+                      <div className="card-name">{card.name}</div>
+                      <div className="card-set">{card.wave} · {card.card_number}</div>
+                      <div className="card-price">—</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="app">
-      <nav className="nav">
-        <div className="logo">Collecta<span>Vault</span></div>
-        <div className="nav-tabs">
-          <button className={page === 'browse' ? 'nav-tab active' : 'nav-tab'} onClick={() => setPage('browse')}>Browse</button>
-          <button className={page === 'sets' ? 'nav-tab active' : 'nav-tab'} onClick={() => setPage('sets')}>Sets</button>
-          <button className={page === 'collection' ? 'nav-tab active' : 'nav-tab'} onClick={() => setPage('collection')}>My collection</button>
-          <button className={page === 'wanted' ? 'nav-tab active' : 'nav-tab'} onClick={() => setPage('wanted')}>Wanted list</button>
-        </div>
-        <div className="nav-right">
-          <div className="nav-search">
-            <input type="text" placeholder="Search cards..." value={search} onChange={e => setSearch(e.target.value)} onFocus={() => setPage('browse')} />
-          </div>
-          <button className="btn-login">Log in</button>
-          <button className="btn-signup">Sign up</button>
-        </div>
-      </nav>
-
+      <Nav activePage={page} />
       {page === 'browse' && (
         <div>
           <div className="hero">
@@ -97,9 +230,9 @@ export default function App() {
               ) : (
                 <div className="cards-grid">
                   {filteredCards.map(card => (
-                    <div className="card" key={card.id}>
+                    <div className="card" key={card.id} onClick={() => setSelectedCard(card)}>
                       <div className="card-img" style={{ background: tierColors[card.tier] || '#f5f5f5' }}>
-                        <span className="card-char">card</span>
+                        <span className="card-char">🃏</span>
                         <span className={`card-badge ${tierBadge[card.tier] || 'badge-r'}`}>{card.tier}</span>
                       </div>
                       <div className="card-info">
@@ -115,42 +248,38 @@ export default function App() {
           )}
         </div>
       )}
-
-{page === 'sets' && (
-  <div className="section">
-    <div className="section-header">
-      <div className="section-title">All sets</div>
-      <div className="see-all">{cards.length} total cards</div>
-    </div>
-    <div className="sets-grid">
-      {['Wave 1', 'Wave 2'].map(wave => {
-        const waveCards = cards.filter(c => c.wave === wave)
-        const series = [...new Set(waveCards.map(c => c.series))]
-        const tiers = [...new Set(waveCards.map(c => c.tier))]
-        return (
-          <div className="set-card" key={wave}>
-            <div className="set-wave">{wave}</div>
-            <div className="set-name">Naruto Kayou {wave === 'Wave 1' ? 'NRSA01' : 'NRSA02'}</div>
-            <div className="set-meta">{waveCards.length} cards · {series.length} series</div>
-            <div className="set-bar">
-              <div className="set-bar-fill" style={{ width: '100%' }}></div>
-            </div>
-            <div className="set-bar-label">{tiers.join(' · ')} tiers</div>
-            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {tiers.map(tier => (
-                <div key={tier} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                  <span style={{ color: '#666' }}>{tier}</span>
-                  <span style={{ fontWeight: 500 }}>{waveCards.filter(c => c.tier === tier).length} cards</span>
-                </div>
-              ))}
-            </div>
+      {page === 'sets' && (
+        <div className="section">
+          <div className="section-header">
+            <div className="section-title">All sets</div>
+            <div className="see-all">{cards.length} total cards</div>
           </div>
-        )
-      })}
-    </div>
-  </div>
-)}
-
+          <div className="sets-grid">
+            {['Wave 1', 'Wave 2'].map(wave => {
+              const waveCards = cards.filter(c => c.wave === wave)
+              const tiers = [...new Set(waveCards.map(c => c.tier))]
+              return (
+                <div className="set-card" key={wave} onClick={() => setSelectedWave(wave)}>
+                  <div className="set-wave">{wave}</div>
+                  <div className="set-name">Naruto Kayou {wave === 'Wave 1' ? 'NRSA01' : 'NRSA02'}</div>
+                  <div className="set-meta">{waveCards.length} cards</div>
+                  <div className="set-bar"><div className="set-bar-fill" style={{ width: '100%' }}></div></div>
+                  <div className="set-bar-label">{tiers.join(' · ')} tiers</div>
+                  <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {tiers.map(tier => (
+                      <div key={tier} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                        <span style={{ color: '#666' }}>{tier}</span>
+                        <span style={{ fontWeight: 500 }}>{waveCards.filter(c => c.tier === tier).length} cards</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: '12px', fontSize: '12px', color: '#378ADD' }}>View all cards →</div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
       {page === 'collection' && (
         <div className="section">
           <div className="section-header">
@@ -165,7 +294,6 @@ export default function App() {
           <div style={{ textAlign: 'center', padding: '48px', color: '#888' }}>Sign in to track your collection</div>
         </div>
       )}
-
       {page === 'wanted' && (
         <div className="section">
           <div className="section-header">
