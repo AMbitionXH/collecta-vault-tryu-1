@@ -116,27 +116,40 @@ export default function App() {
         </div>
       )}
 
-      {page === 'sets' && (
-        <div className="section">
-          <div className="section-header"><div className="section-title">All sets</div></div>
-          <div className="sets-grid">
-            <div className="set-card">
-              <div className="set-wave">Wave 1</div>
-              <div className="set-name">Naruto Kayou NRSA01</div>
-              <div className="set-meta">{wave1Cards.length} cards</div>
-              <div className="set-bar"><div className="set-bar-fill" style={{ width: '100%' }}></div></div>
-              <div className="set-bar-label">SE · SP · BP tiers</div>
+{page === 'sets' && (
+  <div className="section">
+    <div className="section-header">
+      <div className="section-title">All sets</div>
+      <div className="see-all">{cards.length} total cards</div>
+    </div>
+    <div className="sets-grid">
+      {['Wave 1', 'Wave 2'].map(wave => {
+        const waveCards = cards.filter(c => c.wave === wave)
+        const series = [...new Set(waveCards.map(c => c.series))]
+        const tiers = [...new Set(waveCards.map(c => c.tier))]
+        return (
+          <div className="set-card" key={wave}>
+            <div className="set-wave">{wave}</div>
+            <div className="set-name">Naruto Kayou {wave === 'Wave 1' ? 'NRSA01' : 'NRSA02'}</div>
+            <div className="set-meta">{waveCards.length} cards · {series.length} series</div>
+            <div className="set-bar">
+              <div className="set-bar-fill" style={{ width: '100%' }}></div>
             </div>
-            <div className="set-card">
-              <div className="set-wave">Wave 2</div>
-              <div className="set-name">Naruto Kayou NRSA02</div>
-              <div className="set-meta">{wave2Cards.length} cards</div>
-              <div className="set-bar"><div className="set-bar-fill" style={{ width: '100%' }}></div></div>
-              <div className="set-bar-label">SE · SP · BP · AR tiers</div>
+            <div className="set-bar-label">{tiers.join(' · ')} tiers</div>
+            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {tiers.map(tier => (
+                <div key={tier} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                  <span style={{ color: '#666' }}>{tier}</span>
+                  <span style={{ fontWeight: 500 }}>{waveCards.filter(c => c.tier === tier).length} cards</span>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      )}
+        )
+      })}
+    </div>
+  </div>
+)}
 
       {page === 'collection' && (
         <div className="section">
