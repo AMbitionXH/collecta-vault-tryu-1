@@ -1,10 +1,26 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #111;
+}
 
 .app { min-height: 100vh; }
 
-.nav { display: flex; align-items: center; justify-content: space-between; padding: 11px 24px; border-bottom: 0.5px solid #e5e5e5; background: #fff; gap: 12px; position: sticky; top: 0; z-index: 100; }
+/* NAV */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 24px;
+  border-bottom: 0.5px solid #e5e5e5;
+  background: #fff;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 .logo { font-size: 17px; font-weight: 500; color: #111; letter-spacing: -0.3px; white-space: nowrap; }
 .logo span { color: #378ADD; }
 .nav-tabs { display: flex; gap: 2px; }
@@ -16,6 +32,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .btn-login { font-size: 12px; color: #666; cursor: pointer; padding: 5px 12px; border: 0.5px solid #ddd; border-radius: 8px; background: transparent; white-space: nowrap; }
 .btn-signup { font-size: 12px; color: #fff; cursor: pointer; padding: 5px 12px; border: none; border-radius: 8px; background: #378ADD; white-space: nowrap; }
 
+/* HERO */
 .hero { padding: 44px 24px 36px; text-align: center; }
 .hero-eyebrow { font-size: 12px; color: #185FA5; background: #E6F1FB; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 14px; }
 .hero h1 { font-size: 30px; font-weight: 500; color: #111; letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.2; }
@@ -25,19 +42,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .hero-search input { flex: 1; border: none; padding: 12px 16px; font-size: 14px; background: transparent; color: #111; outline: none; }
 .hero-search button { padding: 12px 22px; background: #378ADD; color: #fff; border: none; font-size: 13px; cursor: pointer; }
 
+/* STATS */
 .stats-row { display: flex; justify-content: center; gap: 40px; padding: 18px 24px; border-top: 0.5px solid #e5e5e5; border-bottom: 0.5px solid #e5e5e5; background: #f9f9f9; }
 .stat { text-align: center; }
 .stat-num { font-size: 20px; font-weight: 500; color: #111; }
 .stat-label { font-size: 11px; color: #888; margin-top: 2px; }
 
+/* SECTION */
 .section { padding: 24px; }
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .section-title { font-size: 15px; font-weight: 500; color: #111; }
 .section-sub { font-size: 12px; color: #888; margin-bottom: 16px; }
 .see-all { font-size: 13px; color: #378ADD; cursor: pointer; }
 
-.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.card { background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; overflow: hidden; cursor: pointer; }
+/* CARDS */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }.card { background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; overflow: hidden; cursor: pointer; }
 .card:hover { border-color: #ccc; }
 .card-img { width: 100%; aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; position: relative; }
 .tier-ur { background: #faeeda; } .tier-zr { background: #FBEAF0; } .tier-hr { background: #E6F1FB; } .tier-sr { background: #E1F5EE; } .tier-r { background: #F1EFE8; }
@@ -52,7 +71,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .price-up { font-size: 11px; color: #0F6E56; margin-left: 4px; }
 .price-down { font-size: 11px; color: #993C1D; margin-left: 4px; }
 
-.sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+/* SETS */
+.sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
 .set-card { background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; padding: 16px; cursor: pointer; }
 .set-card:hover { border-color: #ccc; }
 .set-wave { font-size: 11px; color: #185FA5; background: #E6F1FB; padding: 3px 8px; border-radius: 10px; display: inline-block; margin-bottom: 10px; }
@@ -62,12 +82,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .set-bar-fill { height: 100%; background: #378ADD; border-radius: 2px; }
 .set-bar-label { font-size: 11px; color: #888; margin-top: 5px; }
 
+/* METRICS */
 .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
 .metric { background: #f9f9f9; border-radius: 8px; padding: 14px; }
 .metric-label { font-size: 11px; color: #888; margin-bottom: 6px; }
 .metric-value { font-size: 20px; font-weight: 500; color: #111; }
 .metric-value.green { color: #0F6E56; }
 
+/* LIST */
 .list { display: flex; flex-direction: column; gap: 8px; }
 .list-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #fff; border: 0.5px solid #e5e5e5; border-radius: 8px; }
 .item-left { display: flex; align-items: center; gap: 10px; }
@@ -79,42 +101,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .wanted-btn { font-size: 11px; padding: 4px 10px; border-radius: 8px; border: 0.5px solid #ddd; background: transparent; color: #666; cursor: pointer; }
 .wanted-btn.alert { background: #E6F1FB; color: #185FA5; border-color: #85B7EB; }
 .wanted-btn.met { background: #E1F5EE; color: #085041; border-color: #5DCAA5; }
-
-.detail-page { padding: 20px 32px; }
-.breadcrumb { font-size: 11px; color: #888; margin-bottom: 14px; }
-.breadcrumb span { color: #378ADD; cursor: pointer; }
-.detail-top { display: grid; grid-template-columns: 180px 1fr 1fr; gap: 28px; margin-bottom: 24px; align-items: start; }
-.detail-card-img { width: 180px; aspect-ratio: 3/4; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; border: 0.5px solid #e5e5e5; }
-.detail-card-char { font-size: 60px; }
-.detail-info { display: flex; flex-direction: column; gap: 6px; }
-.detail-name { font-size: 22px; font-weight: 500; color: #111; }
-.detail-sub { font-size: 12px; color: #888; }
-.detail-price-row { display: flex; align-items: baseline; gap: 10px; margin-top: 6px; margin-bottom: 2px; }
-.detail-price { font-size: 30px; font-weight: 500; color: #111; }
-.detail-change { font-size: 12px; font-weight: 500; color: #185FA5; background: #E6F1FB; padding: 3px 10px; border-radius: 20px; }
-.detail-price-meta { font-size: 11px; color: #888; margin-bottom: 10px; }
-.detail-btn-row { display: flex; gap: 8px; margin-bottom: 12px; }
-.btn-primary-sm { padding: 6px 16px; background: #378ADD; color: #fff; border: none; border-radius: 7px; font-size: 12px; cursor: pointer; font-weight: 500; white-space: nowrap; }
-.btn-secondary-sm { padding: 6px 16px; background: transparent; color: #111; border: 0.5px solid #ddd; border-radius: 7px; font-size: 12px; cursor: pointer; white-space: nowrap; }
-.detail-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 0.5px solid #e5e5e5; border-radius: 8px; overflow: hidden; }
-.detail-meta-item { padding: 9px 12px; border-bottom: 0.5px solid #e5e5e5; border-right: 0.5px solid #e5e5e5; }
-.detail-meta-item:nth-child(even) { border-right: none; }
-.detail-meta-item:nth-last-child(-n+2) { border-bottom: none; }
-.detail-meta-label { font-size: 10px; color: #888; margin-bottom: 2px; }
-.detail-meta-value { font-size: 13px; font-weight: 500; color: #111; }
-.detail-chart-col { display: flex; flex-direction: column; }
-.detail-chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.detail-chart-title { font-size: 14px; font-weight: 500; color: #111; }
-.detail-chart-tabs { display: flex; gap: 4px; }
-.chart-tab { font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 0.5px solid #ddd; cursor: pointer; color: #666; background: transparent; }
-.chart-tab.active { background: #E6F1FB; color: #185FA5; border-color: #85B7EB; }
-.detail-chart-placeholder { flex: 1; min-height: 200px; border: 0.5px solid #e5e5e5; border-radius: 8px; background: #f9f9f9; display: flex; align-items: center; justify-content: center; }
-.detail-divider { height: 0.5px; background: #e5e5e5; margin-bottom: 20px; }
-.detail-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.detail-section-title { font-size: 14px; font-weight: 500; color: #111; margin-bottom: 10px; }
-.detail-list { display: flex; flex-direction: column; gap: 7px; }
-.detail-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border: 0.5px solid #e5e5e5; border-radius: 8px; }
-.detail-list-price { font-size: 14px; font-weight: 500; color: #111; }
-.detail-list-meta { font-size: 11px; color: #888; margin-top: 2px; }
-.detail-list-badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: #f5f5f5; color: #666; }
-.listing-btn { font-size: 11px; padding: 6px 14px; background: #378ADD; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.back-btn { font-size: 13px; color: #378ADD; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 8px; }
+.card-detail { display: flex; gap: 32px; margin-top: 16px; }
+.card-detail-img { width: 240px; min-height: 320px; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0; }
+.card-detail-info { flex: 1; }
+.card-detail-name { font-size: 24px; font-weight: 500; color: #111; margin-bottom: 4px; }
+.card-detail-meta { font-size: 14px; color: #888; margin-bottom: 4px; }
+.card-detail-number { font-size: 13px; color: #888; margin-bottom: 16px; }
+.card-detail-divider { height: 0.5px; background: #e5e5e5; margin: 16px 0; }
+.card-detail-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 0.5px solid #f5f5f5; }
+.card-detail-row span:first-child { color: #888; }
+.card-detail-row span:last-child { font-weight: 500; color: #111; }
+.card-detail-price { font-size: 20px; font-weight: 500; color: #111; }
+.card-detail-price span { color: #888; font-size: 14px; font-weight: 400; }
