@@ -46,12 +46,6 @@ export default function App() {
     card.series.toLowerCase().includes(search.toLowerCase())
   )
 
-  const priceData: Record<string, { labels: string[], data: number[] }> = {
-    '1w': { labels: ['Mar 14','Mar 15','Mar 16','Mar 17','Mar 18','Mar 19','Mar 20'], data: [194,198,200,220,195,208,214] },
-    '1m': { labels: ['Feb 20','Feb 25','Mar 1','Mar 5','Mar 10','Mar 15','Mar 20'], data: [175,180,188,195,200,205,214] },
-    '3m': { labels: ['Jan','Jan 15','Feb 1','Feb 15','Mar 1','Mar 15','Mar 20'], data: [155,162,170,178,188,205,214] }
-  }
-
   const Nav = ({ activePage }: { activePage: string }) => (
     <nav className="nav">
       <div className="logo">Collecta<span>Vault</span></div>
